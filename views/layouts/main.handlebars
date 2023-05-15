@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>My MVC</title>
+</head>
+
+<body>
+  <header>
+    <h1>Tech Blog</h1>
+  </header>
+  <nav>
+      <ul>
+        <a href="/">Home</a>
+        <a href="/">Dashboard</a>
+        {{#if logged_in}}
+        <button id="logout">Logout</button>
+        <script src='/js/logout.js'></script>
+          {{else}}
+          <a href="login">Login</a>
+        {{/if}}
+      </ul>
+    </nav>
+  <main class="flex flex-grow justify-center m-5 w-10/12">
+      {{{body}}} 
+  </main>
+</body>
+
+</html>
