@@ -7,8 +7,8 @@ commentForms.forEach((form) => {
       title: form.querySelector("#project").value,
       content: form.querySelector("#content").value,
     };
-
-    const response = await fetch("/comments/", {
+    console.log("projectObj:", projectObj);
+    const response = await fetch("/dashboard/", {
       method: "POST",
       body: JSON.stringify(projectObj),
       headers: {

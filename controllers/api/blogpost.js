@@ -1,24 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const { BlogPost } = require('../../models');
+const { BlogPost, User } = require('../../models');
 
-// Route to get all blog posts
+// Route to get all blog posts, retrieving all blogPosts in JSON format
 router.get('/', async (req, res) => {
+  
   try {
-    const blogposts = await BlogPost.findAll({
+    const blogPost = await BlogPost.findAll({
       include: [User],
     });
-    if (BlogPost.length === 0){
+    if (blogPost.length === 0){
       return res.status(404).json({ msg: "no post in database "})
     }
-    res.json(blogposts);
+    res.json(blogPost);
   } catch (err) {
+    console.log("err:", err);
     res.status(500).json({ message: err.message });
   }
 });
 
 router.get("/:id", (req, res) => {
-  Post.findByPk(req.params.id)
+  BlogPost.findByPk(req.params.id)
     .then((blogPost) => {
       if (!blogPost) {
       return res

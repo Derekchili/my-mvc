@@ -3,22 +3,19 @@ const { BlogPost } = require('../models');
 const blogPostData =
 [
   {
-    "postTitle": "this is howie dewit",
-    "postContent": "This is a programming",
-    "userId": 1,
-    "username": "zoe"
+    "title": "this is howie dewit",
+    "content": "This is a programming",
+   
   },
   {
-    "postTitle": "mysql2",
-    "postContent": "This is a advanced language",
-    "userId": 2,
-    "username": "julie"
+    "title": "mysql2",
+    "content": "This is a advanced language",
+   
   },
   {
-    "postTitle": "macBook",
-    "postContent": "This is a html",
-    "userId": 3,
-    "username": "mehoff"
+    "title": "macBook",
+    "content": "This is a html",
+  
   }
 ];
 

@@ -3,6 +3,7 @@ const router = express.Router();
 const { Comment } = require('../../models');
 
 router.get('/', async (req, res) => {
+  console.log("Comment:", Comment);
   try {
     const comments = await Comment.findAll({
     });
@@ -12,10 +13,25 @@ router.get('/', async (req, res) => {
     }
     res.json(comments);
   } catch (err) {
+    console.log("err:", err);
     res.status(500).json({ message: err.message });
   }
 });
-
+router.get("/:id", (req, res) => {
+  Comment.findByPk(req.params.id)
+    .then((comments) => {
+      if (!comments) {
+      return res
+      .status(404)
+      .json({ msg: "no post with that id in database!" });
+      }
+      res.json(comments);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ msg: "error occurred", err });
+    });
+});
 // Create a new comment
 router.post('/', async (req, res) => {
   try {
@@ -23,8 +39,10 @@ router.post('/', async (req, res) => {
       title: req.body.title,
       content: req.body.content
     }
+    
 
     const dbResponse = await Comment.create(newComment);
+
     res.status(201).json(dbResponse);
   } catch (err) {
     console.error(err);

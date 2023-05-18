@@ -7,11 +7,13 @@ router.get('/', async (req, res) => {
     const users = await User.findAll({
 
     });
+    console.log("users:", users);
     if (users.length===0){
       return res.status(404).json({ msg: 'no users in database'});
     }
     res.json(users);
   } catch (err) {
+    console.log("err:", err);
     res.status(500).json({ message: err.message });
   }
 });
@@ -19,12 +21,13 @@ router.get('/', async (req, res) => {
 // Get a specific user
 router.get('/:id', async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findByPk(req.params.id);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
     res.json(user);
   } catch (err) {
+    console.log("err:", err);
     res.status(500).json({ message: err.message });
   }
 });
@@ -36,6 +39,7 @@ router.post('/', async (req, res) => {
     email: req.body.email,
     password: req.body.password
   });
+  console.log("test")
   try {
     const newUser = await user.save();
     res.status(201).json(newUser);
