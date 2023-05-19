@@ -34,10 +34,10 @@ class Comment extends Model {}
   },
   {
     sequelize,
-    // timestamps: false,
-    // freezeTableName: true,
-    // underscored: false,
-    // modelName: 'comment',
+    timestamps: false,
+    freezeTableName: true,
+    underscored: false,
+    modelName: 'comment',
   }
 );
 

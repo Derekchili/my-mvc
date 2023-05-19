@@ -35,7 +35,7 @@ router.get('/:id', async (req, res) => {
 // Create a new user
 router.post('/', async (req, res) => {
   const user = new User({
-    username: req.body.username,
+    name: req.body.name,
     email: req.body.email,
     password: req.body.password
   });
@@ -47,7 +47,27 @@ router.post('/', async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
-
+router.put("/:id", (req, res) => {
+  User.update(
+    {
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password, 
+    },
+    {
+      where: {
+        id: req.params.id,
+      },
+    }
+  )
+    .then((updatedUser) => {
+      res.json(updatedUser);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json(err);
+    });
+});
 // Delete an user
 router.delete('/:id', async (req, res) => {
   try {
