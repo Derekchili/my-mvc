@@ -8,19 +8,19 @@
   <title>My MVC</title>
 </head>
 
-<body>
+<body class="bg-gray-200">
   <header>
-    <h1>Tech Blog</h1>
+    <h1 class="text-3xl font-extrabold m-5 text-blue-500">Tech Blog</h1>
   </header>
-  <nav>
+  <nav class="mx-3 font-extrabold bg-gray-400">
       <ul>
-        <a href="/">Home</a>
-        <a href="/">Dashboard</a>
+        <a class="m-3 text-blue-500" href="/">Home</a>
+        <a class="m-3 text-blue-500" href="/">Dashboard</a>
         {{#if logged_in}}
         <button id="logout">Logout</button>
         <script src='/js/logout.js'></script>
           {{else}}
-          <a href="login">Login</a>
+          <a class="m-3 text-blue-500" href="login">Login</a>
         {{/if}}
       </ul>
     </nav>

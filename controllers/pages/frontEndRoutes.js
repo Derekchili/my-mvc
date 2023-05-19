@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { BlogPost, User } = require("../../models");
-const dayjs = require("dayjs");
+// const dayjs = require("dayjs");
 
 // send homepage as initial action, render the homepage view
 router.get("/", async (req, res) => {
@@ -10,9 +10,9 @@ router.get("/", async (req, res) => {
       post.get({ plain: true, include: [User] })
     );
 
-    allPosts.forEach(
-      (item) => (item.createdAt = dayjs(item.createdAt).format("MMM DD YYYY"))
-    );
+    // allPosts.forEach(
+    //   (item) => (item.createdAt = dayjs(item.createdAt).format("MMM DD YYYY"))
+    // );
       console.log("allPosts:", allPosts)
     res.render("homepage", {
       allPosts: allPosts,
@@ -34,7 +34,14 @@ router.get("/login", (req, res) => {
     logged_in: req.session.logged_in,
   });
 });
-
+router.get("/sign-up", async (req, res) => {
+  try {
+    res.render("sign-up");
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ msg: "some error", err: err });
+  }
+});
 router.get("/dashboard", async (req, res) => {
   if (!req.session.logged_in) {
     return res.redirect("/");

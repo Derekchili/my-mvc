@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { Comment } = require('../../models');
+const { BlogPost, User, Comments } = require('../../models');
 
 router.get('/', async (req, res) => {
-  console.log("Comment:", Comment);
+  console.log("Comments:", Comments);
   try {
     const comments = await Comment.findAll({
+      include: [User, BlogPost],
     });
    
     if (comments.length===0){
@@ -36,8 +37,8 @@ router.get("/:id", (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const newComment ={
-      title: req.body.title,
-      content: req.body.content
+      commentContent: req.body.content,
+      userId: req.body.userId
     }
     
 

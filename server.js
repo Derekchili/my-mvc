@@ -29,11 +29,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(session(sess))
 app.use(express.static('public'));
 
-const allRoutes = require('./controllers')
+const allRoutes = require('./controllers');
 app.use(allRoutes)
-// const User = require('./models/User')
+const User = require('./models/User');
+const Comments = require('./models/Comments');
+
 sequelize.sync({force:false}).then(()=>{
     app.listen(PORT,()=>{
-        console.log(`listening to port PORT!`)
+        console.log(`listening to port PORT!`);
     })
 })

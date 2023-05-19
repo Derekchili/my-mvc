@@ -1,12 +1,12 @@
 const signUpForm = document.querySelector("#signup-form");
 
-// const checkPassword = (pass1, pass2) => {
-//   if (pass1 === pass2) {
-//     return true;
-//   } else {
-//     return false;
-//   }
-// };
+const checkPassword = (pass1, pass2) => {
+  if (pass1 === pass2) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 signUpForm.addEventListener("submit", async (event) => {
   try {
@@ -23,7 +23,7 @@ signUpForm.addEventListener("submit", async (event) => {
         password: document.querySelector("#user-password").value,
       };
 
-      const response = await fetch("/api/users", {
+      const response = await fetch("/api/user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
