@@ -41,9 +41,9 @@ router.get("/:id", async (req, res) => {
 // Route to create a new blog post
 router.post('/', async (req, res) => {
   try{
-    // if(!req.session.user_id){
-    //   return res.json('Please login first')
-    // }
+    if(!req.session.user_id){
+      return res.json('Please login first')
+    }
   const newBlogPost = ({
     title: req.body.title,
     content: req.body.content,
