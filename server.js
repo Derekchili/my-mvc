@@ -31,8 +31,8 @@ app.use(express.static('public'));
 
 const allRoutes = require('./controllers');
 app.use(allRoutes)
-const User = require('./models/User');
-const Comments = require('./models/Comments');
+const User = require('./User');
+const Comments = require('.Comments');
 
 sequelize.sync({force:false}).then(()=>{
     app.listen(PORT,()=>{
