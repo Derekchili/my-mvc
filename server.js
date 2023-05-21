@@ -32,7 +32,7 @@ app.use(express.static('public'));
 const allRoutes = require('./controllers');
 app.use(allRoutes)
 const User = require('./User');
-const Comments = require('.Comments');
+const Comments = require('./Comments');
 
 sequelize.sync({force:false}).then(()=>{
     app.listen(PORT,()=>{
