@@ -19,6 +19,7 @@ const sess = {
         db: sequelize
     })
 };
+app.use(express.static('public'));
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
@@ -27,15 +28,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session(sess))
-app.use(express.static('public'));
+
 
 const allRoutes = require('./controllers');
 app.use(allRoutes)
-const User = require('./User');
-const Comments = require('./Comments');
+const User = require('./models/User');
+const Comments = require('./models/Comments');
 
 sequelize.sync({force:false}).then(()=>{
     app.listen(PORT,()=>{
         console.log(`listening to port PORT!`);
-    })
-})
+    });
+});
