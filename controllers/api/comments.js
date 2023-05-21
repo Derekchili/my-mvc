@@ -1,23 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const { BlogPost, User, Comments } = require('../../models');
+const { Post, User, Comments } = require('../../models');
 
-router.get('/', async (req, res) => {
-  console.log("Comments:", Comments);
+router.get("/", async (req, res) => {
+  // find all Users
   try {
-    const comments = await Comment.findAll({
-      include: [User, BlogPost],
+    const users = await User.findAll({
+      include: [Comments, Post],
     });
-   
-    if (comments.length===0){
-      return res.status(404).json({ msg: 'no comments in database'});
+    if (users.length < 1) {
+      return res
+        .status(404)
+        .json({ message: "There are no users in your database" });
+    } else {
+      res.json(users);
     }
-    res.json(comments);
   } catch (err) {
-    console.log("err:", err);
-    res.status(500).json({ message: err.message });
+    res.status(500).json(err);
   }
 });
+
 router.get("/:id", (req, res) => {
   Comment.findByPk(req.params.id)
     .then((comments) => {
@@ -84,3 +86,19 @@ router.delete('/:id', async (req, res) => {
 });
 
 module.exports = router;
+// router.get('/', async (req, res) => {
+//   console.log("Comments:", Comments);
+//   try {
+//     const comments = await Comment.findAll({
+//       include: [User, Post],
+//     });
+   
+//     if (comments.length===0){
+//       return res.status(404).json({ msg: 'no comments in database'});
+//     }
+//     res.json(comments);
+//   } catch (err) {
+//     console.log("err:", err);
+//     res.status(500).json({ message: err.message });
+//   }
+// });

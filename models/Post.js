@@ -1,16 +1,16 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../config/connection");
 
-class BlogPost extends Model {}
+class Post extends Model {}
 
-BlogPost.init(
+Post.init(
   {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
-    },
+    // id: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: false,
+    //   primaryKey: true,
+    //   autoIncrement: true,
+    // },
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -23,11 +23,11 @@ BlogPost.init(
   },
   {
     sequelize,
-    timestamps: false,
-    freezeTableName: true,
-    underscored: false,
-    modelName: 'post',
+    // timestamps: false,
+    // freezeTableName: true,
+    // underscored: false,
+    // modelName: 'post',
   }
 );
 
-module.exports = BlogPost;
+module.exports = Post;

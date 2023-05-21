@@ -5,7 +5,7 @@ logoutBtn.addEventListener("click", async (event) => {
   try {
     event.preventDefault();
     console.log("test")
-    const response = await fetch("/api/users/logout", {
+    const response = await fetch("/api/user/logout", {
       method: "POST",
     });
     if (response.ok) {

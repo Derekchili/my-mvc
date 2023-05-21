@@ -3,14 +3,14 @@ const commentForms = document.querySelectorAll("form");
 commentForms.forEach((form) => {
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    const blogPostObj = {
+    const PostObj = {
       // title: form.querySelector("#title").value,
       content: form.querySelector("#content").value,
     };
-    console.log("blogPostObj:", blogPostObj);
+    console.log("PostObj:", PostObj);
     const response = await fetch("/dashboard/", {
       method: "POST",
-      body: JSON.stringify(blogPostObj),
+      body: JSON.stringify(PostObj),
       headers: {
         "Content-Type": "application/json",
       },

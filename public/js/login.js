@@ -10,7 +10,7 @@ loginForm.addEventListener("submit", async (event) => {
       password: document.querySelector("#login-password").value,
     };
 
-    const response = await fetch("/api/users/login", {
+    const response = await fetch("/api/user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

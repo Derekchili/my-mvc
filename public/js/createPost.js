@@ -4,19 +4,19 @@ document.querySelector("form").addEventListener("submit", async (event) => {
     const content = document.querySelector("#content").value;
     console.log("title:", title);
     console.log("content:", content);
-    const blogPostObj = {
+    const PostObj = {
       title: document.querySelector("#title").value,
       content: document.querySelector("#content").value,
     };
-    const response = await fetch("/api/blogPosts", {
+    const response = await fetch("/api/posts", {
       method: "POST",
-      body: JSON.stringify(blogPostObj),
+      body: JSON.stringify(PostObj),
       headers: {
         "Content-Type": "application/json",
       },
     });
-    const blogPostData = await response.json();
-    const id = blogPostData.id;
+    const PostData = await response.json();
+    const id = PostData.id;
     if (response.ok) {
       location.href = `/`;
     } else {
@@ -26,19 +26,19 @@ document.querySelector("form").addEventListener("submit", async (event) => {
 
 // document.querySelector("form").addEventListener("submit", async event=>{
 //     event.preventDefault();
-//     const blogPostObj = {
+//     const PostObj = {
 //         title: document.querySelector("#title").value,
 //         due_date: document.querySelector("#due-date").value,
 //     }
-//     const response = await fetch("/api/blogPost", {
+//     const response = await fetch("/api/Post", {
 //         method: "POST",
-//         body: JSON.stringify(blogPostObj),
+//         body: JSON.stringify(PostObj),
 //         headers: {
 //             "Content-Type": "application/json"
 //         }
 //     })
-//         const blogPostData = await response.json()
-//         const id = blogPostData.id
+//         const PostData = await response.json()
+//         const id = PostData.id
 //         if(response.ok){
 //             location.href = `/create-post/${id}`
 //         } else{

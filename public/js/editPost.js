@@ -7,7 +7,7 @@ document.querySelector("form").addEventListener("submit", (e) => {
       title: document.querySelector("#title").value,
       comment: document.querySelector("#content").value,
     };
-    fetch(`/api/blogPosts/${postId}`, {
+    fetch(`/api/post/${postId}`, {
       method: "PUT",
       body: JSON.stringify(postObj),
       headers: {

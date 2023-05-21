@@ -1,6 +1,7 @@
 const signUpForm = document.querySelector("#signup-form");
 
 const checkPassword = (pass1, pass2) => {
+  
   if (pass1 === pass2) {
     return true;
   } else {
@@ -11,6 +12,7 @@ const checkPassword = (pass1, pass2) => {
 signUpForm.addEventListener("submit", async (event) => {
   try {
     const password = document.querySelector("#user-password").value;
+
     const passConfirm = document.querySelector(
       "#user-password-confirmation"
     ).value;

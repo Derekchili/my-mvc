@@ -1,18 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const { BlogPost, User, Comments } = require('../../models');
+const { Post, User, Comments } = require('../../models');
 
 // Route to get all blog posts, retrieving all blogPosts in JSON format
 router.get('/', async (req, res) => {
   
   try {
-    const blogPost = await BlogPost.findAll({
-      include: [User, Comments],
+    const posts = await Post.findAll({
+      // include: [User, Comments],
     });
-    if (blogPost.length === 0){
+    if (posts.length < 1){
       return res.status(404).json({ msg: "no post in database "})
+    } else {
+      res.json(posts);
     }
-    res.json(blogPost);
   } catch (err) {
     console.log("err:", err);
     res.status(500).json({ message: err.message });
@@ -22,16 +23,16 @@ router.get('/', async (req, res) => {
 router.get("/:id", async (req, res) => {
 
   try {
-    const blogPostID = await BlogPost.findByPk(req.params.id, {
+    const PostID = await Post.findByPk(req.params.id, {
       include: [{ model: Comments }],
     });
 
-    if (!blogPostID) {
+    if (!PostID) {
       res.status(404).json({ message: "No post found with that id!" });
       return;
     }
 
-    res.status(200).json(blogPostID);
+    res.status(200).json(PostID);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -44,12 +45,12 @@ router.post('/', async (req, res) => {
     if(!req.session.user_id){
       return res.json('Please login first')
     }
-  const newBlogPost = ({
+  const newPost = ({
     title: req.body.title,
     content: req.body.content,
     // creator: req.user.id 
   });
-  const dbResponse = await Post.create(newBlogPost);
+  const dbResponse = await Post.create(newPost);
   await dbResponse.addUser(req.session.userId);
   const formatData = await dbResponse.get({plain: true});
   res.status(200).json(formatData);
@@ -62,7 +63,7 @@ router.post('/', async (req, res) => {
 
 
 router.put("/:id", (req, res) => {
-  BlogPost.update(
+  Post.update(
     {
       title: req.body.title,
       due_date: req.body.due_date,
@@ -73,9 +74,9 @@ router.put("/:id", (req, res) => {
       },
     }
   )
-    .then((updateBlogPost) => {
+    .then((updatePost) => {
       
-      res.json(updateBlogPost);
+      res.json(updatePost);
     })
     .catch((err) => {
       console.log(err);
@@ -86,18 +87,18 @@ router.put("/:id", (req, res) => {
 
 // Route to delete a blog post
 router.delete('/:id',(req, res) => {
-  BlogPost.destroy({
+  Post.destroy({
     where: {
       id: req.params.id
     },
   })
-  .then((delBlogPost) => {
-    if (!delBlogPost) {
+  .then((delPost) => {
+    if (!delPost) {
       return res
         .status(404)
         .json({ msg: "no post with this id in database!" });
     }
-    res.json(delBlogPost);
+    res.json(delPost);
   })
   .catch((err) => {
     console.log(err);
