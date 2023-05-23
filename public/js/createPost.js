@@ -30,24 +30,4 @@ document.querySelector("form").addEventListener("submit", async (event) => {
     }
   });
 
-// document.querySelector("form").addEventListener("submit", async event=>{
-//     event.preventDefault();
-//     const PostObj = {
-//         title: document.querySelector("#title").value,
-//         due_date: document.querySelector("#due-date").value,
-//     }
-//     const response = await fetch("/api/Post", {
-//         method: "POST",
-//         body: JSON.stringify(PostObj),
-//         headers: {
-//             "Content-Type": "application/json"
-//         }
-//     })
-//         const PostData = await response.json()
-//         const id = PostData.id
-//         if(response.ok){
-//             location.href = `/create-post/${id}`
-//         } else{
-//             alert("You have an error")
-//         }
-//     })
+
