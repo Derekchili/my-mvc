@@ -35,7 +35,7 @@ app.use(allRoutes)
 const User = require('./models/User');
 const Comments = require('./models/Comments');
 
-sequelize.sync({force:true}).then(()=>{
+sequelize.sync({force:false}).then(()=>{
     app.listen(PORT,()=>{
         console.log(`listening to port PORT!`);
     });
