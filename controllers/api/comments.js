@@ -1,5 +1,4 @@
-const express = require('express');
-const router = express.Router();
+const router = require("express").Router();
 const { Post, User, Comments } = require('../../models');
 
 router.get("/", async (req, res) => {
@@ -8,7 +7,7 @@ router.get("/", async (req, res) => {
     const users = await User.findAll({
       include: [Comments, Post],
     });
-    if (users.length < 1) {
+    if (users.length === 0) {
       return res
         .status(404)
         .json({ message: "There are no users in your database" });
@@ -20,85 +19,74 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", (req, res) => {
-  Comment.findByPk(req.params.id)
-    .then((comments) => {
-      if (!comments) {
-      return res
-      .status(404)
-      .json({ msg: "no post with that id in database!" });
-      }
-      res.json(comments);
+router.get("/:id", async (req, res) => {
+  try {
+    const userId = await Project.findByPk(req.params.id, {
+      include: [{ model: Task }],
+    });
+
+    if (!userId) {
+      res.status(404).json({ message: "No users found with that id!" });
+      return;
+    }
+
+    res.status(200).json(userId);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+// Create a new comment
+router.post("/", async (req, res) => {
+  try {
+    const User = {
+      username: req.body.username,
+      password: req.body.password,
+      email: req.body.email,
+    };
+    const dbResponse = await User.create(newUser);
+
+    await dbResponse.addUser(req.session.user_id);
+
+    const formatData = await dbResponse.get({ plain: true });
+   
+    res.status(200).json(formatData);
+  } catch (err) {
+    res.status(500).json({ err: err });
+  }
+});
+router.put("/:id", (req, res) => {
+  User.update(
+    {
+      username: req.body.username,
+      password: req.body.password,
+      email: req.body.email,
+    },
+    {
+      where: {
+        id: req.params.id,
+      },
+    }
+  )
+    .then((updatedUser) => {
+      res.json(updatedUser);
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json({ msg: "error occurred", err });
+      res.json(err);
     });
 });
-// Create a new comment
-router.post('/', async (req, res) => {
-  try {
-    const newComment ={
-      commentContent: req.body.content,
-      userId: req.body.userId
-    }
-    
 
-    const dbResponse = await Comment.create(newComment);
-
-    res.status(201).json(dbResponse);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error while creating comment' });
-  }
+router.delete("/:id", (req, res) => {
+  User.destroy({
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((deletedUser) => {
+      res.json(deletedUser);
+    })
+    .catch((err) => res.json(err));
 });
 
-// Update an existing comment by ID
-router.put('/:id', async (req, res) => {
-  try {
-    const [updatedComment] = await Comment.update(req.body, {
-      where: { id: req.params.id },
-    });
-    if (updatedComment === 0) {
-      return res.status(404).json({ message: 'Comment not found' });
-    }
-    res.status(200).json({ message: 'Comment updated successfully' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error while updating comment' });
-  }
-});
-
-// Delete an existing comment by ID
-router.delete('/:id', async (req, res) => {
-  try {
-    const deletedComment = await Comment.destroy({
-      where: { id: req.params.id },
-    });
-    if (deletedComment === 0) {
-      return res.status(404).json({ message: 'Comment not found' });
-    }
-    res.status(200).json({ message: 'Comment deleted successfully' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error while deleting comment' });
-  }
-});
 
 module.exports = router;
-// router.get('/', async (req, res) => {
-//   console.log("Comments:", Comments);
-//   try {
-//     const comments = await Comment.findAll({
-//       include: [User, Post],
-//     });
-   
-//     if (comments.length===0){
-//       return res.status(404).json({ msg: 'no comments in database'});
-//     }
-//     res.json(comments);
-//   } catch (err) {
-//     console.log("err:", err);
-//     res.status(500).json({ message: err.message });
-//   }
-// });

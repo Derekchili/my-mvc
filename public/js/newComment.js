@@ -1,28 +1,19 @@
-const commentForms = document.querySelectorAll("form");
+const completeBtn = document.querySelectorAll(".deleteButton");
 
-commentForms.forEach((form) => {
-  form.addEventListener("submit", async (event) => {
+completeBtn.forEach((button) => {
+  button.addEventListener("click", (event) => {
+    
     event.preventDefault();
-    const PostObj = {
-      // title: form.querySelector("#title").value,
-      content: form.querySelector("#content").value,
-    };
-    console.log("PostObj:", PostObj);
-    const response = await fetch("/dashboard/", {
-      method: "POST",
-      body: JSON.stringify(PostObj),
+    const postId = document.querySelector("#delete").dataset.id;
+    
+    // console.log("postId:", postId);
+    const response = fetch(`/api/posts/${postId}`, {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
     });
-
-    if (response.ok) {
-      // If the response is successful, redirect to the comments page
-      window.location.href = "/comments";
-    } else {
-      // If there's an error, display an error message
-      alert("There was an error submitting your comment");
-    }
+    location.reload();
   });
 });
 

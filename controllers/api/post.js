@@ -1,5 +1,4 @@
-const express = require('express');
-const router = express.Router();
+const router = require("express").Router();
 const { Post, User, Comments } = require('../../models');
 
 // Route to get all blog posts, retrieving all blogPosts in JSON format
@@ -7,9 +6,9 @@ router.get('/', async (req, res) => {
   
   try {
     const posts = await Post.findAll({
-      // include: [User, Comments],
+      include: [Comments, User],
     });
-    if (posts.length < 1){
+    if (posts.length === 0){
       return res.status(404).json({ msg: "no post in database "})
     } else {
       res.json(posts);
@@ -19,32 +18,26 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
 router.get("/:id", async (req, res) => {
-
   try {
-    const PostID = await Post.findByPk(req.params.id, {
+    const postID = await Post.findByPk(req.params.id, {
       include: [{ model: Comments }],
     });
-
-    if (!PostID) {
+    if (!postID) {
       res.status(404).json({ message: "No post found with that id!" });
       return;
     }
 
-    res.status(200).json(PostID);
+    res.status(200).json(postID);
   } catch (err) {
     res.status(500).json(err);
   }
 });
-   
 
 // Route to create a new blog post
 router.post('/', async (req, res) => {
   try{
-    if(!req.session.user_id){
-      return res.json('Please login first')
-    }
+    
   const newPost = ({
     title: req.body.title,
     content: req.body.content,
@@ -63,10 +56,11 @@ router.post('/', async (req, res) => {
 
 
 router.put("/:id", (req, res) => {
+  console.log("req.body:", req.body);
   Post.update(
     {
       title: req.body.title,
-      due_date: req.body.due_date,
+      content: req.body.comment,
     },
     {
       where: {
@@ -93,11 +87,7 @@ router.delete('/:id',(req, res) => {
     },
   })
   .then((delPost) => {
-    if (!delPost) {
-      return res
-        .status(404)
-        .json({ msg: "no post with this id in database!" });
-    }
+
     res.json(delPost);
   })
   .catch((err) => {

@@ -32,7 +32,7 @@ signUpForm.addEventListener("submit", async (event) => {
         },
         body: JSON.stringify(newUser),
       });
-      console.log("response:", response);
+      // console.log("response:", response);
       if (response.ok) {
         location.href = "/";
       } else {

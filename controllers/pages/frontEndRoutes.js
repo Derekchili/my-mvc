@@ -41,10 +41,10 @@ router.get("/sign-up", async (req, res) => {
     return res.status(500).json({ msg: "some error", err: err });
   }
 });
-router.get("/posts", async (req, res) => {
+router.get("/createPost", async (req, res) => {
   if (req.session.logged_in) {
     try {
-      res.render("posts_overview", { logged_in: req.session.logged_in });
+      res.render("create-post", { logged_in: req.session.logged_in });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ msg: "an error occured", err: err });
@@ -53,11 +53,10 @@ router.get("/posts", async (req, res) => {
     res.redirect("/login");
   }
 });
-
-router.get("/createPost", async (req, res) => {
+router.get("/posts", async (req, res) => {
   if (req.session.logged_in) {
     try {
-      res.render("create_posts", { logged_in: req.session.logged_in });
+      res.render("posts", { logged_in: req.session.logged_in });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ msg: "an error occured", err: err });
@@ -73,50 +72,27 @@ router.get("/post/:id", (req, res) => {
   }).then((dbResponse) => {
     const taskData = dbResponse.get({ plain: true });
     console.log("taskData:", taskData);
-    res.render("edit_post", taskData);
+    res.render("edit-post", taskData);
   });
 });
-
+// router.get("/dashboard", async (req, res) => {
+//     if (!req.session.logged_in) {
+//       return res.redirect("/");
+//     }
+//     const yourPostData = await Post.findAll({ include: [User], 
+//       where: {UserId: req.session.user_id}
+//     }
+//       )
+//     const yourPosts = yourPostData.map(post => post.get({ plain: true}))
+  
+//      // direct to login page and send session logged in status
+//   res.render("dashboard", {
+//     logged_in: req.session.logged_in,
+//     yourPosts: yourPosts
+//   });
+//   });
 
 module.exports = router;
 
-// router.get("/", async (req, res) => {
-//   try {
-//     const PostData = await Post.findAll({ include: [User] });
-//     const allPosts = PostData.map((post) =>
-//       post.get({ plain: true, include: [User] })
-//     );
 
-//     // allPosts.forEach(
-//     //   (item) => (item.createdAt = dayjs(item.createdAt).format("MMM DD YYYY"))
-//     // );
-//       console.log("allPosts:", allPosts)
-//     res.render("homepage", {
-//       allPosts: allPosts,
-//       logged_in: req.session.logged_in,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(500).json({ msg: "some error", err: err });
-//   }
-// });
 
-// router.get("/dashboard", async (req, res) => {
-  //   if (!req.session.logged_in) {
-  //     return res.redirect("/");
-  //   }
-  //   const yourPostData = await Post.findAll({ include: [User], 
-  //     // where: {UserId: req.session.user_id}
-  //   }
-  //     )
-  //   const yourPosts = yourPostData.map(post => post.get({ plain: true}))
-  
-  //   yourPosts.forEach(
-  //     (item) => (item.createdAt = dayjs(item.createdAt).format("MMM DD YYYY"))
-  //   );
-  //    // direct to login page and send session logged in status
-  // res.render("dashboard", {
-  //   logged_in: req.session.logged_in,
-  //   yourPosts: yourPosts
-  // });
-  // });

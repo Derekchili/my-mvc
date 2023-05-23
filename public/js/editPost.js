@@ -1,13 +1,13 @@
-document.querySelector("form").addEventListener("submit", (e) => {
+
+document.querySelector('form').addEventListener("submit", (e) => {
     e.preventDefault();
   
     const postId = document.querySelector("#post-section").dataset.id;
-  
     const postObj = {
       title: document.querySelector("#title").value,
       comment: document.querySelector("#content").value,
     };
-    fetch(`/api/post/${postId}`, {
+    fetch(`/api/posts/${postId}`, {
       method: "PUT",
       body: JSON.stringify(postObj),
       headers: {
